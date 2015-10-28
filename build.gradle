@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+version = '1.0'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    jcenter()
+}
+
+ext.luceneVersion = '5.3.1'
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:1.2.7.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-actuator:1.2.7.RELEASE")
+    compile("net.htmlparser.jericho:jericho-html:3.3")
+    compile("org.htmlparser:htmlparser:2.1")
+    compile("edu.uci.ics:crawler4j:4.1")
+    compile("org.jsoup:jsoup:1.7.2")
+    compile("org.apache.lucene:lucene-core:${luceneVersion}")
+    compile("org.apache.lucene:lucene-queryparser:${luceneVersion}")
+    compile("org.apache.lucene:lucene-highlighter:${luceneVersion}")
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile("org.springframework.boot:spring-boot-starter-test:1.2.7.RELEASE")
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath(
+                "org.springframework.boot:spring-boot-gradle-plugin:1.2.7.RELEASE",
+        )
+    }
+}
