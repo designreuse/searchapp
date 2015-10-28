@@ -1,12 +1,11 @@
 package org.niko.repository;
 
+import org.niko.dto.SearchResult;
 import org.niko.entity.Page;
-
-import java.util.List;
 
 public interface PagesRepository {
 
     void create(Page page);
-    List<Page> search(String text);
+    SearchResult search(String text, Integer skip, String sortType);
 
 }
