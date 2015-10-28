@@ -1,12 +1,16 @@
 package org.niko.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @JsonAutoDetect
 public class Page {
 
     private String title;
     private String url;
+    private String highlight;
+
+    @JsonIgnore
     private String content;
 
     public Page() {
@@ -16,6 +20,10 @@ public class Page {
         this.url = url;
         this.title = title;
         this.content = content;
+    }
+
+    public void setHighlight(String highlight) {
+        this.highlight = highlight;
     }
 
     public String getTitle() {
@@ -40,6 +48,10 @@ public class Page {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getHighlight() {
+        return highlight;
     }
 
     @Override
