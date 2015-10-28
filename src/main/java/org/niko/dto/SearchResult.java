@@ -10,12 +10,22 @@ public class SearchResult {
     private List<Page> pages = new ArrayList<>();
     private int totalCount = 0;
     private int perPage = 10;
+    private int skip = 0;
 
     public SearchResult() {}
 
-    public SearchResult(List<Page> pages, int totalCount) {
+    public SearchResult(List<Page> pages, int totalCount, int skip) {
         this.pages = pages;
         this.totalCount = totalCount;
+        this.skip = skip;
+    }
+
+    public int getSkip() {
+        return skip;
+    }
+
+    public void setSkip(int skip) {
+        this.skip = skip;
     }
 
     public List<Page> getPages() {

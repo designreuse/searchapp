@@ -57,7 +57,7 @@ public class PagesRepositoryImpl implements PagesRepository {
                 page.setHighlight(highlighter.getBestFragment(analyzer, "content", page.getContent()));
                 pages.add(page);
             }
-            return new SearchResult(pages, search.totalHits);
+            return new SearchResult(pages, search.totalHits, skipRecords);
         } catch (Exception e) {
             return new SearchResult();
         }
