@@ -1,7 +1,7 @@
 package org.niko.service;
 
 import org.niko.crawler.*;
-import org.niko.dao.PagesDao;
+import org.niko.repository.PagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class CrawlerServiceImpl implements CrawlerService, LinkTaskRunner {
     private ExecutorService execService = Executors.newFixedThreadPool(64);
 
     @Autowired
-    PagesDao pagesDao;
+    PagesRepository pagesRepository;
 
     @Override
     public void load(String url, Integer depth) {
@@ -27,7 +27,7 @@ public class CrawlerServiceImpl implements CrawlerService, LinkTaskRunner {
     }
 
     public void startNewTask(Link link, LinkHandler linkHandler) {
-        execService.execute(new LinkFinder(link, linkHandler, pagesDao::create));
+        execService.execute(new LinkFinder(link, linkHandler, pagesRepository::create));
     }
 
 }

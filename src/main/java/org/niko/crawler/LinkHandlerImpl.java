@@ -7,11 +7,11 @@ import java.util.HashSet;
 public class LinkHandlerImpl implements LinkHandler {
 
     private final Collection<Link> visitedLinks = Collections.synchronizedSet(new HashSet<>());
-    private LinkTaskRunner consumer;
+    private LinkTaskRunner runner;
     private int depth;
 
-    public LinkHandlerImpl(LinkTaskRunner consumer, int depth) {
-        this.consumer = consumer;
+    public LinkHandlerImpl(LinkTaskRunner runner, int depth) {
+        this.runner = runner;
         this.depth = depth;
     }
 
@@ -21,7 +21,7 @@ public class LinkHandlerImpl implements LinkHandler {
 
     @Override
     public void queueLink(Link link) {
-        consumer.startNewTask(link, this);
+        runner.startNewTask(link, this);
     }
 
     @Override

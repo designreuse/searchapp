@@ -1,24 +1,25 @@
-package org.niko.dao;
+package org.niko.repository;
 
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
 import org.niko.entity.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
 import static org.niko.util.PageToDocumentConverterUtils.documentToPage;
 import static org.niko.util.PageToDocumentConverterUtils.pageToDocument;
 
 @Repository
-public class PagesDaoImpl implements PagesDao {
+public class PagesRepositoryImpl implements PagesRepository {
 
     @Autowired IndexWriter writer;
     @Autowired IndexSearcher searcher;
@@ -35,17 +36,19 @@ public class PagesDaoImpl implements PagesDao {
     }
 
     public List<Page> search(String text) {
+        return Stream.of(getTopDocs(text)).map(this::toPage).filter(Objects::nonNull).collect(toList());
+    }
+
+    private ScoreDoc[] getTopDocs(String text) {
         try {
-            TopDocs topDocs = searcher.search(queryParser.parse(text, "content"), 10);
-            List<Page> pages = new ArrayList<>();
-            for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-                pages.add(documentToPage(searcher.doc(scoreDoc.doc)));
-            }
-            return pages;
-        } catch (IOException | QueryNodeException e) {
-            e.printStackTrace();
-        }
-        return null;
+            return searcher.search(queryParser.parse(text, "content"), 10).scoreDocs;
+        } catch (IOException | QueryNodeException e) {return new ScoreDoc[0];}
+    }
+
+    private Page toPage(ScoreDoc scoreDoc) {
+        try {
+            return documentToPage(searcher.doc(scoreDoc.doc));
+        } catch (IOException e) {return null;}
     }
 
 }

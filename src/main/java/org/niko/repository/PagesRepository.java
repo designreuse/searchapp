@@ -1,10 +1,10 @@
-package org.niko.dao;
+package org.niko.repository;
 
 import org.niko.entity.Page;
 
 import java.util.List;
 
-public interface PagesDao {
+public interface PagesRepository {
 
     void create(Page page);
     List<Page> search(String text);
