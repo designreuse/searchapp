@@ -25,7 +25,7 @@ public class IndexController {
     @ResponseStatus(NO_CONTENT)
     @RequestMapping(value = "", method = POST)
     public void indexUrl(@RequestParam String q, @RequestParam(required = false) Integer depth) {
-        crawlerService.load(q);
+        crawlerService.load(q, depth);
     }
 
 }

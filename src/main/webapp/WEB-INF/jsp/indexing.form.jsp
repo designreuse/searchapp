@@ -7,6 +7,7 @@
 <body>
 <form action="/index" method="post">
     <input name="q" type="text"/>
+    <input type="number" name="depth" value="3"/>
     <button type="submit">Index</button>
 </form>
 </body>

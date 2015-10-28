@@ -1,16 +1,10 @@
 package org.niko.entity;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@JsonAutoDetect
 public class Page {
 
     private String title;
     private String url;
     private String highlight;
-
-    @JsonIgnore
     private String content;
 
     public Page() {

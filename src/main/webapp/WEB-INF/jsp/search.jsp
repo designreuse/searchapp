@@ -7,7 +7,7 @@
 </head>
 <body>
 <form action="search">
-  <input name="q"/>
+  <input name="q" value="${q}"/>
   <button>Search</button>
 </form>
 <div>
