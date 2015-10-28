@@ -4,6 +4,7 @@ import org.niko.repository.PagesRepository;
 import org.niko.entity.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,10 +24,10 @@ public class SearchController {
         return "index";
     }
 
-    @ResponseBody
     @RequestMapping(value = "/search")
-    public List<Page> search(@RequestParam String q) {
-        return pagesRepository.search(q);
+    public String search(@RequestParam String q, Model model) {
+        model.addAttribute("result", pagesRepository.search(q));
+        return "search";
     }
 
 }
