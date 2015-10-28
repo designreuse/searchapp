@@ -7,7 +7,7 @@
 </head>
 <body>
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh">
-    <form action="search" style="width: 30%">
+    <form action="/index" method="post" style="width: 30%">
         <div>
             <input class="form-control" style="width: 70%; display: inline" name="q"/>
             <input class="form-control" style="width: 10%; display: inline" type="number" name="depth" value="3"/>

@@ -17,7 +17,7 @@
                     <input class="form-control" name="q" value="${q}" placeholder="Search for..."/>
                 </div>
                 <div class="col-md-1">
-                    <select class="form-control">
+                    <select name="sort" class="form-control">
                         <c:forEach var="st" items="${sortTypes}">
                             <option ${st.name() == sort ? 'selected' : ''}
                                     value="${st.name()}">${st.name()}</option>
