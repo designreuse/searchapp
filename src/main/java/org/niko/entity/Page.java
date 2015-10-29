@@ -48,12 +48,4 @@ public class Page {
         return highlight;
     }
 
-    @Override
-    public String toString() {
-        return "Page{" +
-                "title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }

@@ -5,6 +5,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,18 +15,16 @@ import java.nio.file.Paths;
 @Configuration
 public class LuceneConfig {
 
-    public static final String INDEX_FOLDER = System.getProperty("java.io.tmpdir") + "/lucene/index";
-
     @Bean StandardAnalyzer analyzer() {
         return new StandardAnalyzer();
     }
 
-    @Bean FSDirectory luceneDirectory() throws IOException {
-        return FSDirectory.open(Paths.get(INDEX_FOLDER));
+    @Bean FSDirectory luceneDirectory(@Value("${lucene.index}") String indexFolder) throws IOException {
+        return FSDirectory.open(Paths.get(System.getProperty("java.io.tmpdir") + indexFolder));
     }
 
     @Bean IndexWriter indexWriter() throws IOException {
-        return new IndexWriter(luceneDirectory(), indexWriterConfig());
+        return new IndexWriter(luceneDirectory(null), indexWriterConfig());
     }
 
     @Bean IndexWriterConfig indexWriterConfig() {

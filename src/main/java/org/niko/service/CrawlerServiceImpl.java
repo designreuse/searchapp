@@ -21,11 +21,6 @@ public class CrawlerServiceImpl implements CrawlerService, LinkTaskRunner {
         startNewTask(new Link(url, 1), new LinkHandlerImpl(this, depth));
     }
 
-    @Override
-    public void load(String url) {
-        load(url, CrawlerService.DEFAULT_DEPTH);
-    }
-
     public void startNewTask(Link link, LinkHandler linkHandler) {
         execService.execute(new LinkFinder(link, linkHandler, pagesRepository::create));
     }

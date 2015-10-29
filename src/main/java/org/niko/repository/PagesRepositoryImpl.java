@@ -7,6 +7,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.FSDirectory;
@@ -41,26 +42,29 @@ public class PagesRepositoryImpl implements PagesRepository {
 
     public SearchResult search(String text, Integer skip, String sortType) {
         int skipRecords = (skip == null) ? 0 : skip;
+        int lastRecord = skipRecords + 10;
         try {
             Query query = queryParser.parse(text, "content");
-
-            TopDocs search = new IndexSearcher(DirectoryReader.open(fsDirectory)).search(query, skipRecords + 10, SortingTypes.valueOf(sortType).sort);
-            ScoreDoc[] scoreDocs = search.scoreDocs;
-            scoreDocs = Arrays.copyOfRange(scoreDocs, skipRecords, skipRecords + 10);
+            TopDocs search = new IndexSearcher(DirectoryReader.open(fsDirectory)).search(query, lastRecord, SortingTypes.valueOf(sortType).sort);
+            ScoreDoc[] scoreDocs = Arrays.copyOfRange(search.scoreDocs, skipRecords, lastRecord);
             List<Page> pages = new ArrayList<>();
             for (ScoreDoc scoreDoc : scoreDocs) {
                 if(scoreDoc == null) continue;
-                SimpleHTMLFormatter htmlFormatter = new SimpleHTMLFormatter();
-                Highlighter highlighter = new Highlighter(htmlFormatter, new QueryScorer(query));
-                IndexSearcher indexSearcher = new IndexSearcher(DirectoryReader.open(fsDirectory));
-                Page page = documentToPage(indexSearcher.doc(scoreDoc.doc));
-                page.setHighlight(highlighter.getBestFragment(analyzer, "content", page.getContent()));
-                pages.add(page);
+                pages.add(getHighlightedPage(query, scoreDoc));
             }
             return new SearchResult(pages, search.totalHits, skipRecords);
         } catch (Exception e) {
             return new SearchResult();
         }
+    }
+
+    private Page getHighlightedPage(Query query, ScoreDoc scoreDoc) throws IOException, InvalidTokenOffsetsException {
+        SimpleHTMLFormatter htmlFormatter = new SimpleHTMLFormatter();
+        Highlighter highlighter = new Highlighter(htmlFormatter, new QueryScorer(query));
+        IndexSearcher indexSearcher = new IndexSearcher(DirectoryReader.open(fsDirectory));
+        Page page = documentToPage(indexSearcher.doc(scoreDoc.doc));
+        page.setHighlight(highlighter.getBestFragment(analyzer, "content", page.getContent()));
+        return page;
     }
 
 }

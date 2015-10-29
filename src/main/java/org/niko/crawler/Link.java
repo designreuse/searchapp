@@ -35,11 +35,4 @@ public class Link {
         return url.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "Link{" +
-                "url='" + url + '\'' +
-                ", depth=" + depth +
-                '}';
-    }
 }

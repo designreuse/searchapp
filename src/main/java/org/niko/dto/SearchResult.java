@@ -24,32 +24,12 @@ public class SearchResult {
         return skip;
     }
 
-    public void setSkip(int skip) {
-        this.skip = skip;
-    }
-
     public List<Page> getPages() {
         return pages;
     }
 
-    public void setPages(List<Page> pages) {
-        this.pages = pages;
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
     public int getPerPage() {
         return perPage;
-    }
-
-    public void setPerPage(int perPage) {
-        this.perPage = perPage;
     }
 
     public int getMaxPages() {
